@@ -18,3 +18,17 @@ export async function POST(req: Request) {
     return new NextResponse("Internal error", { status: 500 });
   }
 }
+
+export async function GET() {
+  try {
+    const categories = await db.category.findMany({
+      orderBy: {
+        createdAt: "asc",
+      },
+    });
+    return NextResponse.json(categories);
+  } catch (error) {
+    console.log("[CATEGORIES_GET]", error);
+    return new NextResponse("Internal error", { status: 500 });
+  }
+}

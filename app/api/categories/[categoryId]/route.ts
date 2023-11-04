@@ -49,3 +49,23 @@ export async function DELETE(
     return new NextResponse("Internal error", { status: 500 });
   }
 }
+export async function GET(
+  req: Request,
+  { params }: { params: { categoryId: string } }
+) {
+  try {
+    if (!params.categoryId) {
+      return new NextResponse("category id is required", { status: 400 });
+    }
+    const category = await db.category.findUnique({
+      where: {
+        id: params.categoryId,
+      },
+    });
+
+    return NextResponse.json(category);
+  } catch (error) {
+    console.log("[category_GET]", error);
+    return new NextResponse("Internal error", { status: 500 });
+  }
+}

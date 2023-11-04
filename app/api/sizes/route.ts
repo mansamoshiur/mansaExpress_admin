@@ -22,3 +22,18 @@ export async function POST(req: Request) {
     return new NextResponse("Internal error", { status: 500 });
   }
 }
+
+export async function GET(req: Request) {
+  try {
+    const sizes = await db.size.findMany({
+      orderBy: {
+        createdAt: "asc",
+      },
+    });
+
+    return NextResponse.json(sizes);
+  } catch (error) {
+    console.log("[SIZES_GET]", error);
+    return new NextResponse("Internal error", { status: 500 });
+  }
+}

@@ -47,3 +47,24 @@ export async function DELETE(
     return new NextResponse("Internal error", { status: 500 });
   }
 }
+
+export async function GET(
+  req: Request,
+  { params }: { params: { sizeId: string } }
+) {
+  try {
+    if (!params.sizeId) {
+      return new NextResponse("size id is required", { status: 400 });
+    }
+    const size = await db.size.findUnique({
+     where:{
+      id:params.sizeId
+     }
+    });
+
+    return NextResponse.json(size);
+  } catch (error) {
+    console.log("[size_GET]", error);
+    return new NextResponse("Internal error", { status: 500 });
+  }
+}
