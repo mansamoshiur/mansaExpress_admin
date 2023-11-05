@@ -98,9 +98,15 @@ export async function GET(
       return new NextResponse("Product id is required", { status: 400 });
     }
     const product = await db.product.findUnique({
-     where:{
-      id:params.productId
-     }
+      where: {
+        id: params.productId,
+      },
+      include: {
+        images: true,
+        category: true,
+        color: true,
+        size: true,
+      },
     });
 
     return NextResponse.json(product);
